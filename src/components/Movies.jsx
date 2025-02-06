@@ -3,20 +3,18 @@ import MovieCard from "./MovieCard";
 import axios from "axios";
 import Pagination from "./Pagination";
 
-function Movies() {
+function Movies({ handleAddToWatchlist, handleRemoveFromWatchlist, watchlist }) {
   const [movies, setMovies] = useState([]);
-  const [pageNo, setPageNo]= useState(1);
+  const [pageNo, setPageNo] = useState(1);
 
   const handlePrev = () => {
-    if(pageNo > 1){
+    if (pageNo > 1) {
       setPageNo(pageNo - 1);
     }
-  }
+  };
   const handleNext = () => {
     setPageNo(pageNo + 1);
-  }
-  
-  
+  };
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -45,10 +43,20 @@ function Movies() {
       <div className="text-2xl m-5 font-bold text-center">Trending Movies</div>
       <div className="flex flex-row flex-wrap justify-around m-10 gap-8">
         {movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
+          <MovieCard
+            key={movie.id}
+            movie={movie}
+            handleAddToWatchlist={handleAddToWatchlist}
+            handleRemoveFromWatchlist={handleRemoveFromWatchlist}
+            watchlist={watchlist}
+          />
         ))}
       </div>
-      <Pagination pageNo={pageNo} handleNext={handleNext} handlePrev={handlePrev}/>
+      <Pagination
+        pageNo={pageNo}
+        handleNext={handleNext}
+        handlePrev={handlePrev}
+      />
     </div>
   );
 }
