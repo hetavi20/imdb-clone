@@ -1,6 +1,4 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { useState, useEffect } from "react";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import Movies from "./components/Movies";
@@ -9,23 +7,35 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Banner from "./components/Banner";
 
 function App() {
-  let [watchlist, setWatchlist] = useState([]);
+  let [watchlist, setWatchlist] = useState(() => {
+    let movies = localStorage.getItem("moviesApp");
+    return movies ? JSON.parse(movies) : [];
+  });
 
   let handleAddToWatchlist = (movie) => {
-    setWatchlist([...watchlist, movie]);
-    console.log(watchlist);
-  };
-  let handleRemoveFromWatchlist = (movie) => {
-    let newWatchlist = watchlist.filter((m) => m.id !== movie.id);
+    let newWatchlist = [...watchlist, movie];
     setWatchlist(newWatchlist);
-    console.log(watchlist);
+    localStorage.setItem("moviesApp", JSON.stringify(newWatchlist));
   };
+
+  let handleRemoveFromWatchlist = (movie) => {
+    let filteredWatchlist = watchlist.filter((item) => item.id !== movie.id);
+    setWatchlist(filteredWatchlist);
+    localStorage.setItem("moviesApp", JSON.stringify(filteredWatchlist));
+  };
+
+  useEffect(() => {
+    let movies = localStorage.getItem("moviesApp");
+    if(!movies){
+      return;
+    }
+    setWatchlist(JSON.parse(movies));
+  }, []);
 
   return (
     <>
       <BrowserRouter>
         <Navbar />
-
         <Routes>
           <Route
             path="/"
@@ -42,7 +52,9 @@ function App() {
           ></Route>
           <Route
             path="/watchlist"
-            element={<WatchList watchlist={watchlist} />}
+            element={
+              <WatchList watchList={watchlist} setWatchlist={setWatchlist} />
+            }
           ></Route>
         </Routes>
       </BrowserRouter>
