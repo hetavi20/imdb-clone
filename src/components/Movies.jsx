@@ -25,7 +25,7 @@ function Movies({ handleAddToWatchlist, handleRemoveFromWatchlist, watchlist }) 
             headers: {
               Accept: "application/json",
               Authorization:
-                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxODcwODk2M2VkOTMyNDZiMTE5ZmRiYzk4ZDAwYTcxNiIsIm5iZiI6MTczODY3NDIzMi4wNTUsInN1YiI6IjY3YTIxMDM4MzVkMzA5NzViNjAzMDMwOCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Imv7RKZEffuCUk5OAMvixa30temz9u1Gmt1l4DqReDY",
+                "REACT_APP_TMDB_ACCESS_TOKEN",
             },
           }
         );
